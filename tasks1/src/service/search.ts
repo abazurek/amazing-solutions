@@ -42,6 +42,7 @@ const searchSpaces = (searchText: string): Promise<Results> => {
       }
     }, random(MIN_TIME_MILLIS, MAX_TIME_MILLIS, false));
   });
+
 };
 
 export { searchSpaces };
