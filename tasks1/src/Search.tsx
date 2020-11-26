@@ -1,13 +1,28 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {searchSpaces, delay} from "./service/search";
+import debounce from "./debounce";
 
-// const delay= require("./delay");
 
 export default function Search() {
 
+    const [searchTerm, setSearchTerm] = useState('');
     const [results, setResults] = useState();
     const [error, setError] = useState();
 
+    const debouncedSearchTerm = debounce(searchTerm, 500);
+
+    useEffect(()=>{
+        if(debouncedSearchTerm){
+            searchSpaces(debouncedSearchTerm)
+                .then(delay(500))
+                .then(data=>setResults(data))
+                .catch(err=>setError(<p>coś poszło nie tak...</p>));
+        }else {
+            setResults(null);
+            setError(null)
+        }
+
+    }, [debouncedSearchTerm])
 
     const inputStyle = {
         marginTop: "50px",
@@ -19,31 +34,13 @@ export default function Search() {
         lineHeight: "1.2em"
     }
 
-    function ChangeInput(target: string) {
-        if (target) {
-            searchSpaces(target)
-                .then(delay(500))
-                .then(data=>setResults(data))
-                .catch(err=>setError(<p>coś poszło nie tak...</p>));
-            console.log(target)
-        } else {
-            setResults(null);
-            setError(null)
-        }
-
-
-    }
-
-    if (results) {
-        console.log(results)
-    }
 
     return (
         <section>
             <form>
                 <label>
-                    <input style={inputStyle} type='text' placeholder='write the text..'
-                           onChange={({target}) => ChangeInput(target.value)}/>
+                    <input  style={inputStyle} type='text' placeholder='write the text..'
+                           onChange={({target}) => setSearchTerm(target.value)}/>
                 </label>
             </form>
             <ul>
