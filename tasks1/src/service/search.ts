@@ -29,6 +29,9 @@ const CHANCE_OF_FAILURE = 0.1;
 const MIN_TIME_MILLIS = 100;
 const MAX_TIME_MILLIS = 1000;
 
+
+
+
 const searchSpaces = (searchText: string): Promise<Results> => {
   return new Promise((res, rej) => {
     setTimeout(() => {
@@ -42,7 +45,16 @@ const searchSpaces = (searchText: string): Promise<Results> => {
       }
     }, random(MIN_TIME_MILLIS, MAX_TIME_MILLIS, false));
   });
+}
 
-};
+ function delay(duration:number) {
+  return function(data:object){
+    return new Promise(function(resolve){
+      setTimeout(function(){
+        resolve(data)
+      }, duration)
+    });
+  };
+}
 
-export { searchSpaces };
+export { searchSpaces, delay };
