@@ -36,3 +36,12 @@
     transform: rotate(360deg);
   }
 }
+input{
+  margin-top: 50px;
+  font-size: 20px;
+}
+li{
+  list-style-type: none;
+  font-size: 1.5em;
+  line-height: 1.2em;
+}
